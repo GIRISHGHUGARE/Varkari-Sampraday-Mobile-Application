@@ -1,29 +1,40 @@
-import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
-import React, { useState } from 'react'
-import InputBox from '../../components/InputBox'
-import SubmitButton from '../../components/SubmitButton'
+import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
+import React, { useState } from "react";
+import InputBox from "../../components/Forms/InputBox";
+import SubmitButton from "../../components/Forms/SubmitButton";
+import axios from "axios";
 
 const Register = ({ navigation }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // states
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    //Function
-    const handleSubmit = () => {
+    //function
+    // btn funcn
+    const handleSubmit = async () => {
         try {
             setLoading(true);
             if (!name || !email || !password) {
-                Alert.alert('Please Fill All Fields');
+                Alert.alert("Please Fill All Fields");
                 setLoading(false);
                 return;
             }
             setLoading(false);
-            console.log("Register Data==>", { name, email, password })
+            const { data } = await axios.post("/auth/register", {
+                name,
+                email,
+                password,
+            });
+            alert(data && data.message);
+            navigation.navigate("Login");
+            console.log("Register Data==> ", { name, email, password });
         } catch (error) {
-            setLoading(false)
-            console.log(error)
+            alert(error.response.data.message);
+            setLoading(false);
+            console.log(error);
         }
-    }
+    };
     return (
         <View style={styles.container}>
             <Text style={styles.pageTitle}>Register</Text>

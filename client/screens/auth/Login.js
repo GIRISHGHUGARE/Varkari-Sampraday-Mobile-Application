@@ -1,29 +1,48 @@
-import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
-import React, { useState } from 'react'
-import InputBox from '../../components/InputBox'
-import SubmitButton from '../../components/SubmitButton'
-
+import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../../context/authContext";
+import InputBox from "../../components/Forms/InputBox";
+import SubmitButton from "../../components/Forms/SubmitButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const Login = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    //global state
+    const [state, setState] = useContext(AuthContext);
+
+    // states
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    //Function
-    const handleSubmit = () => {
+    //function
+    // btn funcn
+    const handleSubmit = async () => {
         try {
             setLoading(true);
             if (!email || !password) {
-                Alert.alert('Please Fill All Fields');
+                Alert.alert("Please Fill All Fields");
                 setLoading(false);
                 return;
             }
             setLoading(false);
-            console.log("Login Data==>", { email, password })
+            const { data } = await axios.post("/auth/login", { email, password });
+            setState(data);
+            await AsyncStorage.setItem("@auth", JSON.stringify(data));
+            alert(data && data.message);
+            navigation.navigate("Home");
+            console.log("Login Data==> ", { email, password });
         } catch (error) {
-            setLoading(false)
-            console.log(error)
+            alert(error.response.data.message);
+            setLoading(false);
+            console.log(error);
         }
-    }
+    };
+    //temp function to check local storage data
+    const getLcoalStorageData = async () => {
+        let data = await AsyncStorage.getItem("@auth");
+        console.log("Local Storage ==> ", data);
+    };
+    getLcoalStorageData();
     return (
         <View style={styles.container}>
             <Text style={styles.pageTitle}>Login</Text>
