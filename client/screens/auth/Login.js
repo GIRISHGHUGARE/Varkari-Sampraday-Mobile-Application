@@ -4,7 +4,7 @@ import InputBox from '../../components/InputBox'
 import SubmitButton from '../../components/SubmitButton'
 
 
-const Login = () => {
+const Login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ const Login = () => {
                 loading={loading}
                 handleSubmit={handleSubmit}
             />
-            <Text style={styles.linkText}>Not A User Please <Text style={styles.link}>Register</Text></Text>
+            <Text style={styles.linkText}>Not A User Please{" "} <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Register</Text></Text>
         </View>
     )
 }
