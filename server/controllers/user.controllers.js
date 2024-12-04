@@ -43,3 +43,16 @@ export const registerController = async (req, res) => {
         })
     }
 };
+export const loginController = async (req, res) => {
+    try {
+
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).send({
+            success: false,
+            message: "Error in Login API",
+            error,
+        })
+    }
+}
