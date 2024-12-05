@@ -1,6 +1,14 @@
 import userModel from '../models/user.model.js'
 import bcrypt from "bcrypt";
 import JWT from 'jsonwebtoken'
+import expressJwt from 'express-jwt';
+
+//middleware
+const requireSignIn = expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"]
+});
+
 export const registerController = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -90,6 +98,37 @@ export const loginController = async (req, res) => {
             success: false,
             message: "Error in Login API",
             error,
+        })
+    }
+}
+
+export const updateUserController = async (req, res) => {
+
+    try {
+        const { name, email, password } = req.body;
+        const user = await userModel.findOne({ email })
+        if (password && password.length < 6) {
+            return res.status(400).send({
+                success: false,
+                message: "Password must be 6 characters long"
+            })
+        }
+        const hashPassword = password ? await bcrypt.hash(password, 10) : undefined;
+        const updatedUser = await userModel.findOneAndUpdate({ email }, {
+            name: name || user.name,
+            password: hashPassword || user.password
+        }, { new: true });
+        user.password = undefined;
+        return res.status(200).send({
+            success: true,
+            message: "Profile updated please login",
+            updatedUser
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: "error in update api"
         })
     }
 }
