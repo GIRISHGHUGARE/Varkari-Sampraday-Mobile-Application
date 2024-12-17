@@ -20,6 +20,13 @@ app.use(morgan('dev'));
 
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/post", postRoutes);
+
+app.get("/", (req, res) => {
+    res.status(200).send({
+        "success": true,
+        "message": "Server is running!"
+    })
+})
 app.use(express.json());
 const PORT = process.env.PORT || 8080;
 
