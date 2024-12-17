@@ -9,12 +9,13 @@ import HeaderMenu from './HeaderMenu';
 import About from '../../screens/About';
 import Post from '../../screens/Post';
 import Account from '../../screens/Account';
+import Myposts from '../../screens/Myposts';
 const ScreenMenu = () => {
     const [state] = useContext(AuthContext);
     const authenticatedUser = state?.user && state?.token;
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName={authenticatedUser ? "Home" : "Login"}>
             {authenticatedUser ?
                 (
                     <>
@@ -27,8 +28,8 @@ const ScreenMenu = () => {
                             }}
                         />
                         <Stack.Screen
-                            name="About"
-                            component={About}
+                            name="Myposts"
+                            component={Myposts}
                             options={{
                                 headerBackTitle: 'Back',
                                 headerRight: () => <HeaderMenu />
