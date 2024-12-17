@@ -21,7 +21,7 @@ const Register = ({ navigation }) => {
                 return;
             }
             setLoading(false);
-            const { data } = await axios.post("/auth/register", {
+            const { data } = await axios.post("http://192.168.0.114:8080/api/v1/auth/register", {
                 name,
                 email,
                 password,
@@ -61,7 +61,7 @@ const Register = ({ navigation }) => {
                 loading={loading}
                 handleSubmit={handleSubmit}
             />
-            <Text style={styles.linkText}>Already Register Please{" "} <Text style={styles.link} onPress={() => navigation.navigate('Login')}>Login</Text></Text>
+            <Text style={styles.linkText}>Already have a account?{" "} <Text style={styles.link} onPress={() => navigation.navigate('Login')}>Sign in</Text></Text>
         </View>
     )
 }
@@ -85,8 +85,9 @@ const styles = StyleSheet.create({
 
     },
     link: {
-        color: 'red'
+        color: 'red',
+        fontWeight: "bold"
     }
 })
 
-export default Register
+export default Register;

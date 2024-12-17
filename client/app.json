@@ -23,6 +23,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "fonts": {
+      "Poppins_300Light": "./assets/fonts/Poppins_300Light.ttf",
+      "Poppins_400Regular": "./assets/fonts/Poppins_400Regular.ttf"
     }
   }
 }

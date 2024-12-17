@@ -1,10 +1,11 @@
 import userModel from '../models/user.model.js'
 import bcrypt from "bcrypt";
-import JWT from 'jsonwebtoken'
-import expressJwt from 'express-jwt';
-
-//middleware
-const requireSignIn = expressJwt({
+import JWT from 'jsonwebtoken';
+import { expressjwt as expressJwt } from 'express-jwt';
+import dotenv from "dotenv";
+dotenv.config();
+// middleware
+export const requireSignIn = expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"]
 });

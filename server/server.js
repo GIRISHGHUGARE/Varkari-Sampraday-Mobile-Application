@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import colors from 'colors';
 import morgan from 'morgan';
-import userRoutes from './routes/user.routes.js'
+import userRoutes from './routes/user.routes.js';
+import postRoutes from './routes/post.route.js';
 import connectDB from './config/db.js';
 
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/post", postRoutes);
 app.use(express.json());
 const PORT = process.env.PORT || 8080;
 

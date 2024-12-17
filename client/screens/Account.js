@@ -5,10 +5,11 @@ import FooterMenu from '../components/Menus/FooterMenu'
 import axios from 'axios'
 
 const Account = () => {
-    //global state
+    // global state
     const [state, setState] = useContext(AuthContext)
-    const { user } = state;
-    //local state
+    const { user, token } = state;
+
+    // local state
     const [name, setName] = useState(user?.name);
     const [password, setPassword] = useState(user?.password);
     const [email] = useState(user?.email);
@@ -17,7 +18,7 @@ const Account = () => {
     const handleUpdate = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.put('/auth/update-user', {
+            const { data } = await axios.put('http://192.168.0.114:8080/api/v1/auth/update-user', {
                 name, email, password
             })
             setLoading(false);
@@ -30,13 +31,15 @@ const Account = () => {
             console.log(error);
         }
     }
+
     return (
         <View style={styles.container}>
             <ScrollView>
                 <View>
-                    <Image source={{
-                        uri: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"
-                    }} style={{ height: 200, width: 200, alignSelf: "center" }} />
+                    <Image
+                        source={require('../assets/aaiVarkari.png')}
+                        style={{ height: 200, width: 200, alignSelf: "center" }}
+                    />
                 </View>
                 <Text style={styles.warningText}>Currently you can only update your name and password</Text>
                 <View style={styles.inputContainer}>
@@ -86,6 +89,7 @@ const Account = () => {
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
         color: "grey"
     },
     inputBox: {
-        height: 35,
+        height: 40,
         width: 250,
         backgroundColor: "#ffffff",
         marginLeft: 10,
@@ -134,4 +138,5 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 })
-export default Account
+
+export default Account;
