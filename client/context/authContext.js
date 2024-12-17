@@ -34,7 +34,8 @@ const AuthProvider = ({ children }) => {
     let token = state && state.token
     // Set the base URL for Axios
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
-    axios.defaults.baseURL = "http://192.168.0.114:8080/api/v1";
+    axios.defaults.baseURL = "https://varkari-sampraday-mobile-application.onrender.com/api/v1";
+    // axios.defaults.baseURL = "http://192.168.0.114:8080/api/v1";
 
     return (
         <AuthContext.Provider value={[state, setState]}>

@@ -18,7 +18,7 @@ const Account = () => {
     const handleUpdate = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.put('http://192.168.0.114:8080/api/v1/auth/update-user', {
+            const { data } = await axios.put('/auth/update-user', {
                 name, email, password
             })
             setLoading(false);

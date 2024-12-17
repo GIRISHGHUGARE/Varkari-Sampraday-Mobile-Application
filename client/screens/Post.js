@@ -23,7 +23,7 @@ const Post = ({ navigation }) => {
             if (!description) {
                 alert("Please add post description")
             }
-            const { data } = await axios.post("http://192.168.0.114:8080/api/v1/post/create-post", { title, description })
+            const { data } = await axios.post("/post/create-post", { title, description })
             setLoading(false);
             setPosts([...posts, data?.post])
             alert(data?.message)
