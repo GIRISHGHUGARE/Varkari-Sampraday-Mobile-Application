@@ -31,7 +31,7 @@ const PostCard = ({ posts, myPostScreen }) => {
     const handleDeletePost = async (id) => {
         try {
             setLoading(true);
-            const { data } = await axios.delete(`http://192.168.0.114:8080/api/v1/post/delete-post/${id}`)
+            const { data } = await axios.delete(`/post/delete-post/${id}`)
             setLoading(false);
             alert(data?.message);
             navigation.push("Myposts")

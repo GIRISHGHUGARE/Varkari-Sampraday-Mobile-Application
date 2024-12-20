@@ -18,7 +18,6 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [isPasswordShown, setIsPasswordShown] = useState(true);
     //function
     // btn funcn
     const handleSubmit = async () => {
@@ -35,7 +34,7 @@ const Login = ({ navigation }) => {
             await AsyncStorage.setItem("@auth", JSON.stringify(data));
             alert(data && data.message);
             navigation.navigate("Home");
-            console.log("Login Data==> ", { email, password });
+            // console.log("Login Data==> ", { email, password });
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
@@ -45,64 +44,37 @@ const Login = ({ navigation }) => {
     //temp function to check local storage data
     const getLcoalStorageData = async () => {
         let data = await AsyncStorage.getItem("@auth");
-        console.log("Local Storage ==> ", data);
+        // console.log("Local Storage ==> ", data);
     };
     getLcoalStorageData();
     return (
         <View style={styles.container}>
-            <View>
-                <Image
-                    source={require('../../assets/Logo.png')}
-                    style={{ height: 150, width: 150, alignSelf: "center", objectFit: "contain" }}
-                />
-            </View>
-            <View style={{ marginHorizontal: 20 }}>
+            <View style={{ marginHorizontal: 20, flex: 0.3 }}>
                 <InputBox
                     inputTitle={'EMAIL'}
                     keyboardType={'email-address'}
                     autoComplete={"email"}
                     value={email}
                     setValue={setEmail}
+                    iconStart={'envelope'}
 
                 />
                 <InputBox
                     inputTitle={'PASSWORD'}
-                    secureTextEntry={isPasswordShown}
                     autoComplete={"password"}
                     value={password}
                     setValue={setPassword}
+                    iconStart={'lock'}
+                    iconEnd={'eye-slash'}
                 />
-                <TouchableOpacity
-                    onPress={() => setIsPasswordShown(!isPasswordShown)}
-                    style={{ position: "absolute", right: 12, bottom: 30 }}
-                >
-                    {
-                        isPasswordShown == true ? (
-                            <>
-                                <FontAwesome5
-                                    name="eye-slash"
-                                    size={24}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <FontAwesome5
-                                    name="eye"
-                                    size={24}
-                                />
-                            </>
-                        )
-                    }
-                </TouchableOpacity>
+                {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
+                <Text style={styles.linkText}>Don't have an account?{" "} <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Register Now</Text></Text>
+                <SubmitButton
+                    btnTitle="Login"
+                    loading={loading}
+                    handleSubmit={handleSubmit}
+                />
             </View>
-            {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
-            <SubmitButton
-                btnTitle="Login"
-                loading={loading}
-                handleSubmit={handleSubmit}
-            />
-            <Text style={styles.linkText}>Don't have an account?{" "} <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Sign up</Text></Text>
-            {/* </ImageBackground> */}
         </View >
     )
 }
@@ -122,8 +94,8 @@ const styles = StyleSheet.create({
     linkText: {
         color: 'black',
         textAlign: 'center',
-        fontSize: 18
-
+        fontSize: 18,
+        marginBottom: 20
     },
     link: {
         color: 'red',

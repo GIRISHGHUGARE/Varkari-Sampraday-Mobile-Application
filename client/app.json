@@ -13,13 +13,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.girish.g.SampleProject"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.girish.g.SampleProject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,6 +29,11 @@
     "fonts": {
       "Poppins_300Light": "./assets/fonts/Poppins_300Light.ttf",
       "Poppins_400Regular": "./assets/fonts/Poppins_400Regular.ttf"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e8b8a06b-4861-4a32-85e7-fd2db5b836cf"
+      }
     }
   }
 }
