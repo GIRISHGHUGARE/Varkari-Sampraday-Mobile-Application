@@ -5,8 +5,7 @@ import InputBox from "../../components/Forms/InputBox";
 import SubmitButton from "../../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import * as Google from 'expo-auth-session/providers/google';
-import { useAuthRequest } from "expo-auth-session";
+import { useAuthRequest } from "expo-auth-session"; // Import useAuthRequest
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
@@ -19,17 +18,17 @@ const Login = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // Google authentication
-    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-        clientId: "768682582810-0cj57ttmiubm9fjnhqtnle277cc9best.apps.googleusercontent.com", // Replace with your Google client ID
-        redirectUri: "https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback", // Your server callback URL
+    // Google authentication setup using expo-auth-session
+    const [request, response, promptAsync] = useAuthRequest({
+        clientId: "768682582810-0cj57ttmiubm9fjnhqtnle277cc9best.apps.googleusercontent.com", // Your Google Client ID
+        redirectUri: "https://auth.expo.io/@girish.g/SampleProject", // Your Expo redirect URI
     });
 
     // Handle Google authentication response
     React.useEffect(() => {
         if (response?.type === "success") {
             const { id_token } = response.params;
-            // Send the id_token to the server to validate and log the user in
+            // Send the id_token to the backend to validate and log the user in
             loginWithGoogle(id_token);
         }
     }, [response]);

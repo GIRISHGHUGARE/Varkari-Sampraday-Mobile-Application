@@ -8,20 +8,20 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
-    passReqToCallback: true
+    passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, done) => {
     try {
-        // Check if the user exists
+        // Check if the user exists in the database
         let user = await User.findOne({ googleId: profile.id });
 
         if (!user) {
-            // If the user doesn't exist, create a new user
+            // If the user doesn't exist, create a new user in the database
             user = new User({
                 googleId: profile.id,
                 name: profile.displayName,
                 email: profile.emails[0].value,
                 role: 'user',
-                password: null  // No password needed for Google login
+                password: null,  // No password needed for Google login
             });
             await user.save();
         }
@@ -29,9 +29,10 @@ passport.use(new GoogleStrategy({
         // Create a JWT token for the logged-in user
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+        // Return user and token
         return done(null, { user, token });
     } catch (error) {
-        return done(error);
+        return done(error, false);
     }
 }));
 
