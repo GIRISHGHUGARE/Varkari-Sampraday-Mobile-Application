@@ -1,13 +1,13 @@
-// auth/passport.js
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import User from '../models/user.model.js';  // Adjust this import based on your file structure
 import JWT from 'jsonwebtoken';
 
+// Setup Passport Google OAuth 2.0 Strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback',  // Adjust this for production
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
     passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
     try {
@@ -40,7 +40,7 @@ passport.serializeUser((user, done) => {
     done(null, user);
 });
 
-// Deserialize user
+// Deserialize user for sessions
 passport.deserializeUser((user, done) => {
     done(null, user);
 });

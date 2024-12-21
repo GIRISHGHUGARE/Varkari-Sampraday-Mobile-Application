@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes.js';
 import postRoutes from './routes/post.route.js';
 import connectDB from './config/db.js';
 import passport from 'passport';
+import session from 'express-session';
 
 dotenv.config();
 
@@ -17,8 +18,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(session({
+    secret: process.env.GOOGLE_CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
 // Initialize Passport
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/post", postRoutes);
