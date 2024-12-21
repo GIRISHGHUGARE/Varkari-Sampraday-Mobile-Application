@@ -32,7 +32,8 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e8b8a06b-4861-4a32-85e7-fd2db5b836cf"
+        "projectId": "e8b8a06b-4861-4a32-85e7-fd2db5b836cf",
+        "googleClientId": "768682582810-0cj57ttmiubm9fjnhqtnle277cc9best.apps.googleusercontent.com"
       }
     }
   }

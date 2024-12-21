@@ -4,6 +4,8 @@ import { PostContext } from '../context/postContext';
 import FooterMenu from '../components/Menus/FooterMenu'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from "axios"
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome6Icon from 'react-native-vector-icons/FontAwesome6';
 
 const Post = ({ navigation }) => {
     //global state
@@ -49,7 +51,7 @@ const Post = ({ navigation }) => {
                         />
                         <TextInput
                             style={styles.inputBox}
-                            placeholder='add post description'
+                            placeholder='Share your thoughts...'
                             placeholderTextColor={"gray"}
                             multiline={true}
                             numberOfLines={6}
@@ -57,24 +59,27 @@ const Post = ({ navigation }) => {
                             onChangeText={(text) => setDescription(text)}
                         />
                     </View>
-                    <View style={{ alignItems: "center" }}>
-                        <TouchableOpacity style={styles.postBtn} onPress={handlePost}>
-                            <Text style={styles.postBtnText}>
-                                <FontAwesome5
-                                    name="plus-square"
-                                    style={styles.iconStyle}
-                                    size={18}
-                                />
-                                {" "}
-                                Create a post
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+
                 </ScrollView>
 
             </View>
             <View style={{ backgroundColor: "white", justifyContent: "flex-end" }}>
-                <FooterMenu />
+                <View style={styles.footerContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate('')}>
+                        <FontAwesome6Icon
+                            name="image"
+                            style={styles.iconStyle}
+                        // color={route.name === "" ? "black" : "gray"}
+                        />
+                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity style={styles.postBtn} onPress={handlePost}>
+                            <Text style={styles.postBtnText}>
+                                Post
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         </>
 
@@ -86,6 +91,15 @@ const styles = StyleSheet.create({
         margin: 10,
         justifyContent: "space-between",
         marginTop: 40
+    },
+    footerContainer: {
+        flexDirection: "row",
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 15,
+        marginBottom: 15,
+        justifyContent: 'space-between',
+        alignItems: "center"
     },
     heading: {
         color: "#812F21",
@@ -101,24 +115,25 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontSize: 16,
         paddingLeft: 15,
-        borderColor: "#812F21",
+        borderColor: "gray",
         borderWidth: 1,
         borderRadius: 10
     },
     postBtn: {
         backgroundColor: "#812F21",
-        width: 300,
-        marginTop: 30,
-        height: 40,
+        width: 80,
+        height: 45,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
-
     },
     postBtnText: {
         color: "#ffffff",
         fontSize: 18,
         fontWeight: "bold"
+    },
+    iconStyle: {
+        fontSize: 25,
     }
 })
 export default Post

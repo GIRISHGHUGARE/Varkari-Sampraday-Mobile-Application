@@ -1,25 +1,52 @@
-import { View, Text, StyleSheet, TextInput, Alert, Image, ImageBackground, Dimensions, TouchableOpacity } from "react-native";
 import React, { useState, useContext } from "react";
+import { View, Text, StyleSheet, Alert, Dimensions } from "react-native";
 import { AuthContext } from "../../context/authContext";
 import InputBox from "../../components/Forms/InputBox";
 import SubmitButton from "../../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import * as Google from 'expo-auth-session/providers/google';
+import { useAuthRequest } from "expo-auth-session";
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
+
 const Login = ({ navigation }) => {
-    //global state
     const [state, setState] = useContext(AuthContext);
 
-    // states
+    // states for email/password login
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    //function
-    // btn funcn
+
+    // Google authentication
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+        clientId: "768682582810-0cj57ttmiubm9fjnhqtnle277cc9best.apps.googleusercontent.com", // Replace with your Google client ID
+        redirectUri: "https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback"
+    });
+
+    // Handle Google authentication response
+    React.useEffect(() => {
+        if (response?.type === "success") {
+            const { id_token } = response.params;
+            // Send the id_token to the server to validate and log the user in
+            loginWithGoogle(id_token);
+        }
+    }, [response]);
+
+    const loginWithGoogle = async (id_token) => {
+        try {
+            const { data } = await axios.post("/auth/google-login", { id_token });
+            setState(data);
+            await AsyncStorage.setItem("@auth", JSON.stringify(data));
+            alert(data.message);
+            navigation.navigate("Home");
+        } catch (error) {
+            alert("Google login failed!");
+            console.error(error);
+        }
+    };
+
     const handleSubmit = async () => {
         try {
             setLoading(true);
@@ -32,21 +59,15 @@ const Login = ({ navigation }) => {
             const { data } = await axios.post("/auth/login", { email, password });
             setState(data);
             await AsyncStorage.setItem("@auth", JSON.stringify(data));
-            alert(data && data.message);
+            alert(data.message);
             navigation.navigate("Home");
-            // console.log("Login Data==> ", { email, password });
         } catch (error) {
-            alert(error.response.data.message);
+            alert(error.response?.data?.message || "Login failed");
             setLoading(false);
-            console.log(error);
+            console.error(error);
         }
     };
-    //temp function to check local storage data
-    const getLcoalStorageData = async () => {
-        let data = await AsyncStorage.getItem("@auth");
-        // console.log("Local Storage ==> ", data);
-    };
-    getLcoalStorageData();
+
     return (
         <View style={styles.container}>
             <View style={{ marginHorizontal: 20, flex: 0.3 }}>
@@ -57,7 +78,6 @@ const Login = ({ navigation }) => {
                     value={email}
                     setValue={setEmail}
                     iconStart={'envelope'}
-
                 />
                 <InputBox
                     inputTitle={'PASSWORD'}
@@ -67,17 +87,26 @@ const Login = ({ navigation }) => {
                     iconStart={'lock'}
                     iconEnd={'eye-slash'}
                 />
-                {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
-                <Text style={styles.linkText}>Don't have an account?{" "} <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Register Now</Text></Text>
+                <Text style={styles.linkText}>Don't have an account?{" "}
+                    <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Register Now</Text>
+                </Text>
                 <SubmitButton
                     btnTitle="Login"
                     loading={loading}
                     handleSubmit={handleSubmit}
                 />
+
+                {/* Google Sign-In Button */}
+                <SubmitButton
+                    btnTitle="Login with Google"
+                    loading={loading}
+                    handleSubmit={() => promptAsync()} // This triggers the Google login flow
+                />
             </View>
-        </View >
-    )
-}
+        </View>
+    );
+};
+
 const styles = StyleSheet.create({
     container: {
         fontFamily: "poppins",
@@ -85,21 +114,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "white",
     },
-    pageTitle: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20
-    },
     linkText: {
         color: 'black',
         textAlign: 'center',
         fontSize: 18,
-        marginBottom: 20
+        marginBottom: 20,
     },
     link: {
         color: 'red',
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     img: {
         height: screenHeight,
@@ -107,5 +130,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-})
+});
+
 export default Login;

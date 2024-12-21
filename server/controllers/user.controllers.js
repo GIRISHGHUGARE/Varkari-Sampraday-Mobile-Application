@@ -9,7 +9,23 @@ export const requireSignIn = expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"]
 });
-
+export const googleAuthController = async (req, res) => {
+    try {
+        const { user, token } = req.user;
+        return res.status(200).send({
+            success: true,
+            message: 'Google login successful',
+            user,
+            token
+        });
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: 'Google login failed',
+            error,
+        });
+    }
+};
 export const registerController = async (req, res) => {
     try {
         const { name, email, password } = req.body;
