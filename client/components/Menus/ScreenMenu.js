@@ -12,6 +12,8 @@ import Account from '../../screens/Account';
 import Myposts from '../../screens/Myposts';
 import SplashScreen from '../../screens/SplashScreen';
 import OnBoarding from '../OnBoarding';  // Correct case
+import Book from '../../screens/Book';
+import Product from '../../screens/Product';
 
 const ScreenMenu = () => {
     const [state] = useContext(AuthContext);
@@ -26,8 +28,8 @@ const ScreenMenu = () => {
                             name="Home"
                             component={Home}
                             options={{
-                                title: "Varkari Sampraday",
-                                headerRight: () => <HeaderMenu />
+                                title: "",
+                                headerRight: () => <HeaderMenu />,
                             }}
                         />
                         <Stack.Screen
@@ -41,6 +43,26 @@ const ScreenMenu = () => {
                         <Stack.Screen
                             name="Post"
                             component={Post}
+                            options={{
+                                headerBackTitle: 'Back',
+                                headerRight: () => (
+                                    <View style={{ marginHorizontal: 20 }}>
+                                        <HeaderMenu />
+                                    </View>
+                                )
+                            }}
+                        />
+                        <Stack.Screen
+                            name="Book"
+                            component={Book}
+                            options={{
+                                headerBackTitle: 'Back',
+                                headerRight: () => <HeaderMenu />
+                            }}
+                        />
+                        <Stack.Screen
+                            name="Product"
+                            component={Product}
                             options={{
                                 headerBackTitle: 'Back',
                                 headerRight: () => <HeaderMenu />
@@ -66,7 +88,7 @@ const ScreenMenu = () => {
                                 headerTitle: () => (
                                     <View style={styles.headerTitleContainer}>
                                         <Image
-                                            source={require('../../assets/Vitthal_Black.png')} // Path to your image
+                                            source={require('../../assets/Vitthal_Black.png')}
                                             style={styles.headerImage}
                                         />
                                     </View>
@@ -107,8 +129,8 @@ const ScreenMenu = () => {
 const styles = StyleSheet.create({
     headerStyle: {
         backgroundColor: '#812F21', // Header background color
-        height: 250, // Set the custom header height here
-        shadowColor: 'transparent', // Optional: Remove shadow for a cleaner look
+        height: 250,
+        shadowColor: 'transparent',
     },
     headerTitleContainer: {
         justifyContent: 'center',

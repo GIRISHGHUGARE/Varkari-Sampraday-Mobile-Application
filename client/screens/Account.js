@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { AuthContext } from '../context/authContext'
 import FooterMenu from '../components/Menus/FooterMenu'
 import axios from 'axios'
+import Myposts from './Myposts'
 
 const Account = () => {
     // global state
@@ -33,60 +34,65 @@ const Account = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <View>
-                    <Image
-                        source={require('../assets/aaiVarkari.png')}
-                        style={{ height: 200, width: 200, alignSelf: "center" }}
-                    />
-                </View>
-                <Text style={styles.warningText}>Currently you can only update your name and password</Text>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Name</Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        value={name}
-                        onChangeText={(text) => setName(text)}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Email</Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        value={email}
-                        editable={false}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Password</Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                        secureTextEntry={true}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Role</Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        value={state?.user.role}
-                        editable={false}
-                    />
-                </View>
-                <View>
-                    <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate}>
-                        <Text style={styles.updateBtnText}>
-                            {loading ? 'Please Wait' : 'Update Profile'}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+        <>
+            <View style={styles.container}>
+                <ScrollView>
+                    <View>
+                        <Image
+                            source={require('../assets/aaiVarkari.png')}
+                            style={{ height: 200, width: 200, alignSelf: "center" }}
+                        />
+                    </View>
+                    <Text style={styles.warningText}>Currently you can only update your name and password</Text>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputText}>Name</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            value={name}
+                            onChangeText={(text) => setName(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputText}>Email</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            value={email}
+                            editable={false}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputText}>Password</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                            secureTextEntry={true}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputText}>Role</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            value={state?.user.role}
+                            editable={false}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate}>
+                            <Text style={styles.updateBtnText}>
+                                {loading ? 'Please Wait' : 'Update Profile'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Myposts />
+                    </View>
+                </ScrollView>
+            </View>
+            <View style={{ backgroundColor: "#ffffff", justifyContent: "flex-end" }}>
                 <FooterMenu />
             </View>
-        </View>
+        </>
     )
 }
 

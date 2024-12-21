@@ -1,7 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome6Icon from 'react-native-vector-icons/FontAwesome6';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const FooterMenu = () => {
     const navigation = useNavigation();
@@ -9,46 +11,48 @@ const FooterMenu = () => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                <FontAwesome5
+                <FontAwesome5Icon
                     name="home"
                     style={styles.iconStyle}
-                    color={route.name === "Home" && "#FF6500"}
+                    color={route.name === "Home" ? "black" : "gray"}
                 />
-                <Text>Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Book')}>
+                <FontAwesome6Icon
+                    name="book-open"
+                    style={styles.iconStyle}
+                    color={route.name === "Book" ? "black" : "gray"}
+                />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Post')}>
-                <FontAwesome5
-                    name="plus-square"
+                <FontAwesome6Icon
+                    name="circle-plus"
                     style={styles.iconStyle}
-                    color={route.name === "Post" && "#FF6500"}
+                    color={route.name === "Post" ? "black" : "gray"}
                 />
-                <Text>Post</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Myposts')}>
-                <FontAwesome5
-                    name="list"
+            <TouchableOpacity onPress={() => navigation.navigate('Product')}>
+                <FontAwesome6Icon
+                    name="cart-shopping"
                     style={styles.iconStyle}
-                    color={route.name === "Myposts" && "#FF6500"}
+                    color={route.name === "Product" ? "black" : "gray"}
                 />
-                <Text>My Posts</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Account')}>
-                <FontAwesome5
-                    name="user"
+                <FontAwesome5Icon
+                    name="user-alt"
                     style={styles.iconStyle}
-                    color={route.name === "Account" && "#FF6500"}
+                    color={route.name === "Account" ? "black" : "gray"}
                 />
-                <Text>Account</Text>
             </TouchableOpacity>
         </View>
-
     )
 }
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        margin: 10,
-        justifyContent: 'space-between'
+        margin: 20,
+        justifyContent: 'space-between',
     },
     iconStyle: {
         marginBottom: 3,

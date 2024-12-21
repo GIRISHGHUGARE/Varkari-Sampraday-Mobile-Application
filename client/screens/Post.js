@@ -35,45 +35,49 @@ const Post = ({ navigation }) => {
         }
     }
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <View style={{ alignItems: "center" }}>
-                    <Text style={styles.heading}>Create a post</Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        placeholder='add post title'
-                        placeholderTextColor={"gray"}
-                        value={title}
-                        onChangeText={(text) => setTitle(text)}
-                    />
-                    <TextInput
-                        style={styles.inputBox}
-                        placeholder='add post description'
-                        placeholderTextColor={"gray"}
-                        multiline={true}
-                        numberOfLines={6}
-                        value={description}
-                        onChangeText={(text) => setDescription(text)}
-                    />
-                </View>
-                <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity style={styles.postBtn} onPress={handlePost}>
-                        <Text style={styles.postBtnText}>
-                            <FontAwesome5
-                                name="plus-square"
-                                style={styles.iconStyle}
-                                size={18}
-                            />
-                            {" "}
-                            Create a post
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+        <>
+            <View style={styles.container}>
+                <ScrollView>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={styles.heading}>Create a post</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder='add post title'
+                            placeholderTextColor={"gray"}
+                            value={title}
+                            onChangeText={(text) => setTitle(text)}
+                        />
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder='add post description'
+                            placeholderTextColor={"gray"}
+                            multiline={true}
+                            numberOfLines={6}
+                            value={description}
+                            onChangeText={(text) => setDescription(text)}
+                        />
+                    </View>
+                    <View style={{ alignItems: "center" }}>
+                        <TouchableOpacity style={styles.postBtn} onPress={handlePost}>
+                            <Text style={styles.postBtnText}>
+                                <FontAwesome5
+                                    name="plus-square"
+                                    style={styles.iconStyle}
+                                    size={18}
+                                />
+                                {" "}
+                                Create a post
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+
+            </View>
+            <View style={{ backgroundColor: "white", justifyContent: "flex-end" }}>
                 <FooterMenu />
             </View>
-        </View>
+        </>
+
     )
 }
 const styles = StyleSheet.create({
