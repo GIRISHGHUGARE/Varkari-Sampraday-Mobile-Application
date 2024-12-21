@@ -7,7 +7,7 @@ import JWT from 'jsonwebtoken';
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8080/api/v1/auth/google/callback',  // Adjust this for production
+    callbackURL: 'https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback',  // Adjust this for production
     passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
     try {
