@@ -9,6 +9,7 @@ export const requireSignIn = expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"]
 });
+
 export const googleAuthController = async (req, res) => {
     try {
         const { user, token } = req.user;

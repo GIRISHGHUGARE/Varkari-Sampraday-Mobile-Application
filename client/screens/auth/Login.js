@@ -14,7 +14,7 @@ const screenHeight = Dimensions.get('screen').height;
 const Login = ({ navigation }) => {
     const [state, setState] = useContext(AuthContext);
 
-    // states for email/password login
+    // States for email/password login
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
     // Google authentication
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
         clientId: "768682582810-0cj57ttmiubm9fjnhqtnle277cc9best.apps.googleusercontent.com", // Replace with your Google client ID
-        redirectUri: "https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback"
+        redirectUri: "https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google/callback", // Your server callback URL
     });
 
     // Handle Google authentication response
@@ -34,9 +34,11 @@ const Login = ({ navigation }) => {
         }
     }, [response]);
 
+    // Function to handle Google login
     const loginWithGoogle = async (id_token) => {
         try {
-            const { data } = await axios.post("/auth/google-login", { id_token });
+            setLoading(true);
+            const { data } = await axios.post("https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/google-login", { id_token });
             setState(data);
             await AsyncStorage.setItem("@auth", JSON.stringify(data));
             alert(data.message);
@@ -44,9 +46,12 @@ const Login = ({ navigation }) => {
         } catch (error) {
             alert("Google login failed!");
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
+    // Handle email/password login
     const handleSubmit = async () => {
         try {
             setLoading(true);
@@ -55,22 +60,23 @@ const Login = ({ navigation }) => {
                 setLoading(false);
                 return;
             }
-            setLoading(false);
-            const { data } = await axios.post("/auth/login", { email, password });
+            const { data } = await axios.post("https://varkari-sampraday-mobile-application.onrender.com/api/v1/auth/login", { email, password });
             setState(data);
             await AsyncStorage.setItem("@auth", JSON.stringify(data));
             alert(data.message);
             navigation.navigate("Home");
         } catch (error) {
             alert(error.response?.data?.message || "Login failed");
-            setLoading(false);
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <View style={styles.container}>
             <View style={{ marginHorizontal: 20, flex: 0.3 }}>
+                {/* Email input */}
                 <InputBox
                     inputTitle={'EMAIL'}
                     keyboardType={'email-address'}
@@ -79,6 +85,7 @@ const Login = ({ navigation }) => {
                     setValue={setEmail}
                     iconStart={'envelope'}
                 />
+                {/* Password input */}
                 <InputBox
                     inputTitle={'PASSWORD'}
                     autoComplete={"password"}
@@ -87,9 +94,13 @@ const Login = ({ navigation }) => {
                     iconStart={'lock'}
                     iconEnd={'eye-slash'}
                 />
-                <Text style={styles.linkText}>Don't have an account?{" "}
+                {/* Register Link */}
+                <Text style={styles.linkText}>
+                    Don't have an account?{" "}
                     <Text style={styles.link} onPress={() => navigation.navigate('Register')}>Register Now</Text>
                 </Text>
+
+                {/* Submit Button for Email/Password Login */}
                 <SubmitButton
                     btnTitle="Login"
                     loading={loading}
